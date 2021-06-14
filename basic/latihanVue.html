@@ -17,13 +17,9 @@
 <body>
     <div id="app">
         <header>
-            <h1>{{ message }}</h1>
-            <h1 v-once>{{ name }}</h1>
+            <h1>Belajar Dasar Vue JS</h1>
+            <h1>{{ getName() }}</h1>
             <p>The Progressive Javascript Framework</p>
-            <p>{{ 1 + 1 }}</p>
-            <p>{{ name + " mantap" }}</p>
-            <p>{{ name.toUpperCase() }}</p>
-            <p>{{ isSuccess ? 'success' : 'failed' }}</p>
         </header>
     </div>
 
@@ -37,11 +33,19 @@
 
         const vm = new Vue({
             el: '#app',
-            data: member
+            data: member,
+            methods:{ 
+                getName: function() {
+                    return this.name;
+                },
+                setName: function(newName) {
+                    this.name = newName;
+                }
+            }
         })
 
-        vm.$data.name = "Widya";
-        vm.$data.message = "Hallo";
+        vm.setName("Widya");
+
     </script>
 </body>
 </html>
