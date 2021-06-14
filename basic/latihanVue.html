@@ -28,7 +28,7 @@
             <input type="checkbox" name="" id="" v-model="kelas" value="Vue">Vue
             <h1>Kelas yang Anda Ikuti:</h1>
             <ul>
-                <ol v-for="k of kelas">{{ k }}</ol>
+                <ol v-for="(k, i) of kelas">{{ i+1 }} - {{ k }}</ol>
             </ul>
         </header>
     </div>
