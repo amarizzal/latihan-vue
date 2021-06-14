@@ -20,6 +20,10 @@
             <h1>{{ message }}</h1>
             <h1 v-once>{{ name }}</h1>
             <p>The Progressive Javascript Framework</p>
+            <p>{{ 1 + 1 }}</p>
+            <p>{{ name + " mantap" }}</p>
+            <p>{{ name.toUpperCase() }}</p>
+            <p>{{ isSuccess ? 'success' : 'failed' }}</p>
         </header>
     </div>
 
@@ -27,7 +31,8 @@
     <script>
         const member = {
             name: "Rizal",
-            message: "Hi..."
+            message: "Hi...",
+            isSuccess: true
         }
 
         const vm = new Vue({
