@@ -12,14 +12,21 @@
             margin: 5%;
             font-family: Quicksand;
         }
+
+        .active {
+            background-color: red;
+        }
     </style>
 </head>
 <body>
     <div id="app">
         <header>
             <h1>Belajar Dasar Vue JS</h1>
-            <h1>{{ namaLengkap }}</h1>
+            <h1>{{ number }}</h1>
             <p>The Progressive Javascript Framework</p>
+            <button v-on:click="handleClick1" v-bind:class="{active : isActive1 }">1</button>
+            <button v-on:click="handleClick2" v-bind:class="{active : isActive2 }">2</button>
+            <button v-on:click="handleClick3" v-bind:class="{active : isActive3 }">3</button>
             <img :src="picture" alt="">
         </header>
     </div>
@@ -32,7 +39,12 @@
             frontName: "Rizal",
             backName: "Ammar",
             isSuccess: true,
-            picture: "src/image.jpg"
+            picture: "src/image.jpg",
+            number: 1,
+            isActive1: true,
+            isActive2: false,
+            isActive3: false,
+            active: "active"
         }
 
         const vm = new Vue({
@@ -44,6 +56,15 @@
                 },
                 setName: function(newName) {
                     this.name = newName;
+                },
+                handleClick1: function() {
+                    this.isActive1 = !this.isActive1;
+                },
+                handleClick2: function() {
+                    this.isActive2 = !this.isActive2;
+                },
+                handleClick3: function() {
+                    this.isActive3 = !this.isActive3;
                 }
             },
             computed: {
