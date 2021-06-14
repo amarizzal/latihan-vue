@@ -22,11 +22,11 @@
     <div id="app">
         <header>
             <h1>Belajar Dasar Vue JS</h1>
-            <h1>{{ number }}</h1>
+            <h1>{{ kelas }}</h1>
             <p>The Progressive Javascript Framework</p>
-            <button v-on:click="handleClick1" v-bind:class="{active : isActive1 }">1</button>
-            <button v-on:click="handleClick2" v-bind:class="{active : isActive2 }">2</button>
-            <button v-on:click="handleClick3" v-bind:class="{active : isActive3 }">3</button>
+            <input type="checkbox" name="" id="" v-model="kelas" value="React">React
+            <input type="checkbox" name="" id="" v-model="kelas" value="Angular">Angular
+            <input type="checkbox" name="" id="" v-model="kelas" value="Vue">Vue
             <img :src="picture" alt="">
         </header>
     </div>
@@ -44,7 +44,8 @@
             isActive1: true,
             isActive2: false,
             isActive3: false,
-            active: "active"
+            active: "active",
+            kelas: []
         }
 
         const vm = new Vue({
