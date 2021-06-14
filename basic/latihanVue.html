@@ -18,7 +18,7 @@
     <div id="app">
         <header>
             <h1>Belajar Dasar Vue JS</h1>
-            <h1>{{ getName() }}</h1>
+            <h1>{{ namaLengkap }}</h1>
             <p>The Progressive Javascript Framework</p>
         </header>
     </div>
@@ -28,18 +28,25 @@
         const member = {
             name: "Rizal",
             message: "Hi...",
+            frontName: "Rizal",
+            backName: "Ammar",
             isSuccess: true
         }
 
         const vm = new Vue({
             el: '#app',
             data: member,
-            methods:{ 
+            methods: { 
                 getName: function() {
                     return this.name;
                 },
                 setName: function(newName) {
                     this.name = newName;
+                }
+            },
+            computed: {
+                namaLengkap: function() {
+                    return this.frontName + " " + this.backName;
                 }
             }
         })
