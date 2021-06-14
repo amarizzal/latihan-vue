@@ -26,8 +26,8 @@
             <input type="checkbox" name="" id="" v-model="kelas" value="React">React
             <input type="checkbox" name="" id="" v-model="kelas" value="Angular">Angular
             <input type="checkbox" name="" id="" v-model="kelas" value="Vue">Vue
-            <h1>Kelas yang Anda Ikuti:</h1>
-            <ul>
+            <h1 v-if="kelas.length > 0">Kelas yang Anda Ikuti:</h1>
+            <ul v-if="kelas.length > 0">
                 <ol v-for="(k, i) of kelas">{{ i+1 }} - {{ k }}</ol>
             </ul>
         </header>
@@ -54,19 +54,19 @@
             el: '#app',
             data: member,
             methods: { 
-                getName: function() {
+                getName: () => {
                     return this.name;
                 },
-                setName: function(newName) {
+                setName: newName => {
                     this.name = newName;
                 },
-                handleClick1: function() {
+                handleClick1: () => {
                     this.isActive1 = !this.isActive1;
                 },
-                handleClick2: function() {
+                handleClick2: () => {
                     this.isActive2 = !this.isActive2;
                 },
-                handleClick3: function() {
+                handleClick3: () => {
                     this.isActive3 = !this.isActive3;
                 }
             },
