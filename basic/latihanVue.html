@@ -22,12 +22,14 @@
     <div id="app">
         <header>
             <h1>Belajar Dasar Vue JS</h1>
-            <h1>{{ kelas }}</h1>
             <p>The Progressive Javascript Framework</p>
             <input type="checkbox" name="" id="" v-model="kelas" value="React">React
             <input type="checkbox" name="" id="" v-model="kelas" value="Angular">Angular
             <input type="checkbox" name="" id="" v-model="kelas" value="Vue">Vue
-            <img :src="picture" alt="">
+            <h1>Kelas yang Anda Ikuti:</h1>
+            <ul>
+                <ol v-for="k of kelas">{{ k }}</ol>
+            </ul>
         </header>
     </div>
 
