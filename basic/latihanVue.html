@@ -20,6 +20,8 @@
             <h1>Belajar Dasar Vue JS</h1>
             <h1>{{ namaLengkap }}</h1>
             <p>The Progressive Javascript Framework</p>
+            <p v-text="name"></p>
+            <p v-html="element"></p>
         </header>
     </div>
 
@@ -30,7 +32,8 @@
             message: "Hi...",
             frontName: "Rizal",
             backName: "Ammar",
-            isSuccess: true
+            isSuccess: true,
+            element: "<img></img>"
         }
 
         const vm = new Vue({
