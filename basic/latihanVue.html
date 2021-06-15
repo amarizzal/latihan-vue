@@ -23,6 +23,9 @@
         <header>
             <h1>Belajar Dasar Vue JS</h1>
             <p>The Progressive Javascript Framework</p>
+            <a href="#" :class="{active: menu ==='home'}" @click="setMenu('home', $event)">Home</a>
+            <a href="#" :class="{active: menu ==='about'}" @click="setMenu('about', $event)">About</a>
+            <a href="#" :class="{active: menu ==='login'}" @click="setMenu('login', $event)">Login</a>
             <input type="checkbox" name="" id="" v-model="kelas" value="React">React
             <input type="checkbox" name="" id="" v-model="kelas" value="Angular">Angular
             <input type="checkbox" name="" id="" v-model="kelas" value="Vue">Vue
@@ -47,7 +50,8 @@
             isActive2: false,
             isActive3: false,
             active: "active",
-            kelas: []
+            kelas: [],
+            menu: 'home'
         }
 
         const vm = new Vue({
@@ -60,14 +64,9 @@
                 setName: newName => {
                     this.name = newName;
                 },
-                handleClick1: () => {
-                    this.isActive1 = !this.isActive1;
-                },
-                handleClick2: () => {
-                    this.isActive2 = !this.isActive2;
-                },
-                handleClick3: () => {
-                    this.isActive3 = !this.isActive3;
+                setMenu: function(newMenu, event) {
+                    this.menu = newMenu;
+                    event.preventDefault();
                 }
             },
             computed: {
