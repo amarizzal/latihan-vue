@@ -26,6 +26,8 @@
             <a href="#" :class="{active: menu ==='home'}" @click.prevent="setMenu('home')">Home</a>
             <a href="#" :class="{active: menu ==='about'}" @click.prevent="setMenu('about')">About</a>
             <a href="#" :class="{active: menu ==='login'}" @click.prevent="setMenu('login')">Login</a>
+            <h2>Tambah Kelas</h2>
+            <input type="text" @keyup.enter="enterHandling">
             <input type="checkbox" name="" id="" v-model="kelas" value="React">React
             <input type="checkbox" name="" id="" v-model="kelas" value="Angular">Angular
             <input type="checkbox" name="" id="" v-model="kelas" value="Vue">Vue
@@ -66,6 +68,11 @@
                 },
                 setMenu: function(newMenu) {
                     this.menu = newMenu;
+                },
+                enterHandling: function(e) {
+                    let newClass = e.target.value;
+                    this.kelas.push(newClass);
+                    e.target.value = "";
                 }
             },
             computed: {
