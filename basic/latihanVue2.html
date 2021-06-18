@@ -68,7 +68,7 @@
                     <hr>
                     <h1 v-if="data.length > 0">Kelas yang Anda Ikuti:</h1>
                     <ul v-if="data.length > 0">
-                        <ol v-for="(k, i) of data">{{ i+1 }} - {{ k }} <a href="#" @click.prevent="$emit('hapuskelas', i)">Hapus</a></ol>
+                        <ol v-for="(k, i) of data">{{ i+1 }} - {{ k.judul }} <a href="#" @click.prevent="$emit('hapuskelas', k.id)">Hapus</a></ol>
                     </ul>
                     <h3 v-else>Belum ada Kelas yang Anda Ikuti</h3>
                 </div>
@@ -133,12 +133,16 @@
                 'footer-component': footer
             },
             data: {
-                kelas: ['React', 'tes', 'tes']
+                kelas: [
+                    {id:1, judul:'React', deskripsi:'', gambar:'reat.jpg'},
+                    {id:2, judul:'Angular', deskripsi:'', gambar:'angular.jpg'},
+                    {id:3, judul:'Vue', deskripsi:'', gambar:'vue.jpg'},
+                ]
             },
             methods: {
-                hapuskelas: function(index) {
-                    this.kelas.splice(index, 1);
-                    console.log(this.kelas);
+                hapuskelas: function(id) {
+                    console.log(id);
+                    this.kelas = this.kelas.filter(item => item.id != id);
                 },
                 submitkelas: function(event) {
                     const newClass = event.target.value;
