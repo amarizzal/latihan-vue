@@ -25,14 +25,17 @@
         <router-link to="/kelas">Kelas</router-link>
         
         <main>
-            <router-view :data="kelas" @hapuskelas="hapuskelas" @enter-handling="submitkelas"></router-view>
+            <router-view :data="kelas" @hapuskelas="hapuskelas" @submitkelas="submitkelas"></router-view>
         </main>
 
         <footer-component></footer-component>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+
     <script>
 
         const Home = {
@@ -64,7 +67,11 @@
             template: `
                 <div>
                     <h2>Tambah Kelas</h2>
-                    <input type="text" @keyup.enter="$emit('enter-handling', $event)">
+                    <form @submit.prevent="submitkelas">
+                        <input type="text" placeholder="Nama Kelas" v-model="kelas.judul">
+                        <textarea name="" id="" cols="30" rows="10" v-model="kelas.deskripsi"></textarea>
+                        <button type="submit">Submit</button>
+                    </form>
                     <hr>
                     <h1 v-if="data.length > 0">Kelas yang Anda Ikuti:</h1>
                     <ul v-if="data.length > 0">
@@ -76,16 +83,25 @@
             data: 
                 function() {
                     return {
-                        
+                        kelas: {
+                            judul: "",
+                            deskripsi: "",
+                            gambar: null
+                        }
                     }
                 }
             ,
             methods: {
-                enterHandling: function(e) {
-                    let newClass = e.target.value;
-                    this.kelas.push(newClass);
-                    console.log(this.kelas)
-                    e.target.value = "";
+                submitkelas: function() {
+                    data = {
+                        id: uuidv4(),
+                        judul: this.kelas.judul,
+                        deskripsi: this.kelas.deskripsi,
+                        gambar: this.kelas.gambar
+                    }
+                    this.$emit('submitkelas', data);
+                    this.kelas.judul = "";
+                    this.kelas.deskripsi = "";
                 }
             },
         }
@@ -144,11 +160,8 @@
                     console.log(id);
                     this.kelas = this.kelas.filter(item => item.id != id);
                 },
-                submitkelas: function(event) {
-                    const newClass = event.target.value;
-                    console.log(event);
-                    this.kelas.unshift(newClass);
-                    event.target.value="";
+                submitkelas: function(data) {
+                    this.kelas.push(data);
                 }
             }
         })
