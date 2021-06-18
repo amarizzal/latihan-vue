@@ -23,7 +23,7 @@
         <header-component></header-component>
         
         <main>
-            <kelas :data="kelas" @hapuskelas="hapuskelas"></kelas>
+            <kelas :data="kelas" @hapuskelas="hapuskelas" @enter-handling="submitkelas"></kelas>
         </main>
 
         <footer-component></footer-component>
@@ -71,10 +71,7 @@
             template: `
                 <div>
                     <h2>Tambah Kelas</h2>
-                    <input type="text" @keyup.enter="enterHandling">
-                    <input type="checkbox" name="" id="" v-model="data" value="React">React
-                    <input type="checkbox" name="" id="" v-model="data" value="Angular">Angular
-                    <input type="checkbox" name="" id="" v-model="data" value="Vue">Vue
+                    <input type="text" @keyup.enter="$emit('enter-handling', $event)">
                     <hr>
                     <h1 v-if="data.length > 0">Kelas yang Anda Ikuti:</h1>
                     <ul v-if="data.length > 0">
@@ -112,6 +109,12 @@
                 hapuskelas: function(index) {
                     this.kelas.splice(index, 1);
                     console.log(this.kelas);
+                },
+                submitkelas: function(event) {
+                    const newClass = event.target.value;
+                    console.log(event);
+                    this.kelas.unshift(newClass);
+                    event.target.value="";
                 }
             }
         })
