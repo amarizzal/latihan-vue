@@ -23,7 +23,7 @@
         <header-component></header-component>
         
         <main>
-            <kelas></kelas>
+            <kelas v-bind:data="kelas"></kelas>
         </main>
 
         <footer-component></footer-component>
@@ -67,6 +67,7 @@
         })
 
         Vue.component('kelas', {
+            props: ['data'],
             template: `
                 <div>
                     <h2>Tambah Kelas</h2>
@@ -85,7 +86,7 @@
             data: 
                 function() {
                     return {
-                        kelas: []
+                        kelas: this.data
                     }
                 }
             ,
@@ -99,7 +100,10 @@
         })
 
         const vm = new Vue({
-            el: '#app'
+            el: '#app',
+            data: {
+                kelas: ['React']
+            }
         })
 
     </script>
