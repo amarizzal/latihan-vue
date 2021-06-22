@@ -61,6 +61,14 @@
             `
         }
 
+        const NotFound = {
+            template: `
+                <div>
+                    <h2>Halaman Tidak ditemukan</h2>
+                </div>
+            `
+        }
+
         const footer = {
             template: `
                 <footer>
@@ -77,9 +85,11 @@
                     <form @submit.prevent="submitkelas">
                         <p>
                             <input type="text" placeholder="Nama Kelas" v-model="kelas.judul">
+                            <div class="error" v-if="error.judul"><small>{{ error.judul }}</small></div>
                         </p>
                         <p>
                             <textarea name="" id="" cols="30" rows="10" v-model="kelas.deskripsi"></textarea>
+                            <div class="error" v-if="error.deskripsi"><small>{{ error.deskripsi }}</small></div>
                         </p>
                         <p>
                             <input type="file" ref="gambar" @change="uploadgambar">
@@ -90,7 +100,12 @@
                     <hr>
                     <h1 v-if="data.length > 0">Kelas yang Anda Ikuti:</h1>
                     <ul v-if="data.length > 0">
-                        <ol v-for="(k, i) of data">{{ i+1 }} - {{ k.judul }} <a href="#" @click.prevent="$emit('hapuskelas', k.id)">Hapus</a></ol>
+                        <ol v-for="(k, i) of data">
+                            <img :src="'image/' + k.gambar" />
+                            <p>
+                                {{ i+1 }} - {{ k.judul }} <a href="#" @click.prevent="$emit('hapuskelas', k.id)">Hapus</a>
+                            </p>
+                        </ol>
                     </ul>
                     <h3 v-else>Belum ada Kelas yang Anda Ikuti</h3>
                 </div>
@@ -103,23 +118,34 @@
                             deskripsi: "",
                             gambar: null
                         },
-                        previewgambar: ""
+                        previewgambar: "",
+                        error: {
+                            judul: "",
+                            deskripsi: ""
+                        }
                     }
                 }
             ,
             methods: {
                 submitkelas: function() {
-                    data = {
-                        id: uuidv4(),
-                        judul: this.kelas.judul,
-                        deskripsi: this.kelas.deskripsi,
-                        gambar: this.kelas.gambar
+                    if (this.kelas.judul === "") {
+                        this.error.judul = "Judul is required";
+                    } 
+                    if (this.kelas.deskripsi == "") {
+                        this.error.deskripsi = "Deskripsi is required";
+                    } else {
+                        data = {
+                            id: uuidv4(),
+                            judul: this.kelas.judul,
+                            deskripsi: this.kelas.deskripsi,
+                            gambar: this.kelas.gambar
+                        }
+                        this.$emit('submitkelas', data);
+                        this.kelas.judul = "";
+                        this.kelas.deskripsi = "";
+                        this.previewgambar = "";
+                        this.$refs.gambar.value = "";
                     }
-                    this.$emit('submitkelas', data);
-                    this.kelas.judul = "";
-                    this.kelas.deskripsi = "";
-                    this.previewgambar = "";
-                    this.$refs.gambar.value = "";
                 },
                 uploadgambar: function(event) {
                     this.previewgambar = URL.createObjectURL(event.target.files[0]);
@@ -158,10 +184,12 @@
             { path:'/', component: Home},
             { path:'/about', component: About},
             { path:'/kelas', component: Kelas},
+            { path:'*', component: NotFound},
         ]
 
         const router = new VueRouter({
-            routes
+            mode: 'history',
+            routes,
         })
 
         const vm = new Vue({
@@ -172,9 +200,9 @@
             },
             data: {
                 kelas: [
-                    {id:1, judul:'React', deskripsi:'', gambar:'reat.jpg'},
+                    {id:1, judul:'React', deskripsi:'', gambar:'react.png'},
                     {id:2, judul:'Angular', deskripsi:'', gambar:'angular.jpg'},
-                    {id:3, judul:'Vue', deskripsi:'', gambar:'vue.jpg'},
+                    {id:3, judul:'Vue', deskripsi:'', gambar:'vue.png'},
                 ]
             },
             methods: {
