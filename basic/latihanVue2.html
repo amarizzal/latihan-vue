@@ -82,7 +82,7 @@
                             <textarea name="" id="" cols="30" rows="10" v-model="kelas.deskripsi"></textarea>
                         </p>
                         <p>
-                            <input type="file" @change="uploadgambar">
+                            <input type="file" ref="gambar" @change="uploadgambar">
                         </p>
                         <p><img :src="previewgambar" v-if="previewgambar" alt="" width="200"></p>
                         <button type="submit">Submit</button>
@@ -119,6 +119,7 @@
                     this.kelas.judul = "";
                     this.kelas.deskripsi = "";
                     this.previewgambar = "";
+                    this.$refs.gambar.value = "";
                 },
                 uploadgambar: function(event) {
                     this.previewgambar = URL.createObjectURL(event.target.files[0]);
