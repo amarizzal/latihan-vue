@@ -30,6 +30,7 @@
 
         <footer-component></footer-component>
 
+        
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -37,6 +38,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
 
     <script>
+        const radio = document.querySelectorAll("#quis")
+        radio.forEach(item => {
+            if (item.value == "1") {
+                item.checked = true
+            }
+        })
 
         const Home = {
             template: `
@@ -68,8 +75,16 @@
                 <div>
                     <h2>Tambah Kelas</h2>
                     <form @submit.prevent="submitkelas">
-                        <input type="text" placeholder="Nama Kelas" v-model="kelas.judul">
-                        <textarea name="" id="" cols="30" rows="10" v-model="kelas.deskripsi"></textarea>
+                        <p>
+                            <input type="text" placeholder="Nama Kelas" v-model="kelas.judul">
+                        </p>
+                        <p>
+                            <textarea name="" id="" cols="30" rows="10" v-model="kelas.deskripsi"></textarea>
+                        </p>
+                        <p>
+                            <input type="file" @change="uploadgambar">
+                        </p>
+                        <p><img :src="previewgambar" v-if="previewgambar" alt="" width="200"></p>
                         <button type="submit">Submit</button>
                     </form>
                     <hr>
@@ -87,7 +102,8 @@
                             judul: "",
                             deskripsi: "",
                             gambar: null
-                        }
+                        },
+                        previewgambar: ""
                     }
                 }
             ,
@@ -102,6 +118,11 @@
                     this.$emit('submitkelas', data);
                     this.kelas.judul = "";
                     this.kelas.deskripsi = "";
+                    this.previewgambar = "";
+                },
+                uploadgambar: function(event) {
+                    this.previewgambar = URL.createObjectURL(event.target.files[0]);
+                    this.kelas.gambar = event.target.files[0].name;
                 }
             },
         }
