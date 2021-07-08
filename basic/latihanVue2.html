@@ -128,12 +128,15 @@
             ,
             methods: {
                 submitkelas: function() {
+                    this.error.judul = "";
+                    this.error.deskripsi = "";
                     if (this.kelas.judul === "") {
                         this.error.judul = "Judul is required";
                     } 
                     if (this.kelas.deskripsi == "") {
                         this.error.deskripsi = "Deskripsi is required";
-                    } else {
+                    } 
+                    if (this.kelas.judul && this.kelas.deskripsi){
                         data = {
                             id: uuidv4(),
                             judul: this.kelas.judul,
