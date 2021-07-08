@@ -116,7 +116,7 @@
                         kelas: {
                             judul: "",
                             deskripsi: "",
-                            gambar: null
+                            gambar: ""
                         },
                         previewgambar: "",
                         error: {
@@ -151,8 +151,8 @@
                     }
                 },
                 uploadgambar: function(event) {
-                    this.previewgambar = URL.createObjectURL(event.target.files[0]);
                     this.kelas.gambar = event.target.files[0].name;
+                    this.previewgambar = URL.createObjectURL(event.target.files[0]);
                 }
             },
         }
@@ -202,11 +202,15 @@
                 'footer-component': footer
             },
             data: {
-                kelas: [
-                    {id:1, judul:'React', deskripsi:'', gambar:'react.png'},
-                    {id:2, judul:'Angular', deskripsi:'', gambar:'angular.jpg'},
-                    {id:3, judul:'Vue', deskripsi:'', gambar:'vue.png'},
-                ]
+                // kelas: [
+                //     {id:1, judul:'React', deskripsi:'', gambar:'react.png'},
+                //     {id:2, judul:'Angular', deskripsi:'', gambar:'angular.jpg'},
+                //     {id:3, judul:'Vue', deskripsi:'', gambar:'vue.png'},
+                // ]
+                kelas: []
+            },
+            created() {
+                this.kelas = JSON.parse(localStorage.getItem('kelas')) || []
             },
             methods: {
                 hapuskelas: function(id) {
@@ -215,6 +219,7 @@
                 },
                 submitkelas: function(data) {
                     this.kelas.push(data);
+                    window.localStorage.setItem('kelas', JSON.stringify(this.kelas));
                 }
             }
         })
