@@ -69,6 +69,12 @@
             `
         }
 
+        const DetailKelas = {
+            template: `
+                <div>Detail Kelas</div>
+                `
+        }
+
         const footer = {
             template: `
                 <footer>
@@ -105,6 +111,7 @@
                             <p>
                                 {{ i+1 }} - {{ k.judul }} <a href="#" @click.prevent="$emit('hapuskelas', k.id)">Hapus</a>
                             </p>
+                            <router-link :to="'kelas/' + k.id">Lihat Kelas</router-link>
                         </ol>
                     </ul>
                     <h3 v-else>Belum ada Kelas yang Anda Ikuti</h3>
@@ -187,6 +194,10 @@
             { path:'/', component: Home},
             { path:'/about', component: About},
             { path:'/kelas', component: Kelas},
+            {
+                path: '/kelas/:id',
+                component: DetailKelas
+            },
             { path:'*', component: NotFound},
         ]
 
