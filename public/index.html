@@ -97,7 +97,7 @@
             template: `
                 <div>
                     <div v-if=detailKelas>
-                        <img :src="'../image/' + detailKelas.gambar" />
+                        <img :src="'image/' + detailKelas.gambar" />
                         <p><strong>{{detailKelas.judul}} - {{ $route.params.id}}</strong></p>
                         <p>{{detailKelas.deskripsi}}</p>
                         <p><router-link to="/kelas">Kembali</router-link></p>
