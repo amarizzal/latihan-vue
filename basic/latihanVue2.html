@@ -37,6 +37,30 @@
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyD5Vt7ha-kar2n1zB1qxDxn72Bj_pKTTC0",
+        authDomain: "latihan-vue-js-10a5c.firebaseapp.com",
+        projectId: "latihan-vue-js-10a5c",
+        storageBucket: "latihan-vue-js-10a5c.appspot.com",
+        messagingSenderId: "796688836849",
+        appId: "1:796688836849:web:6f9de76f128e7f0bcb2150"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const kelasRef = db.ref('kelas');
+    </script>
+
     <script>
         const radio = document.querySelectorAll("#quis")
         radio.forEach(item => {
@@ -72,10 +96,15 @@
         const DetailKelas = {
             template: `
                 <div>
-                    <img :src="'../image/' + detailKelas.gambar" />
-                    <p><strong>{{detailKelas.judul}} - {{ $route.params.id}}</strong></p>
-                    <p>{{detailKelas.deskripsi}}</p>
-                    <p><router-link to="/kelas">Kembali</router-link></p>
+                    <div v-if=detailKelas>
+                        <img :src="'../image/' + detailKelas.gambar" />
+                        <p><strong>{{detailKelas.judul}} - {{ $route.params.id}}</strong></p>
+                        <p>{{detailKelas.deskripsi}}</p>
+                        <p><router-link to="/kelas">Kembali</router-link></p>
+                    </div>
+                    <div v-else>
+                        Data tidak ditemukan
+                    </div>
                 </div>
                 `,
             data() {
@@ -89,9 +118,13 @@
             methods: {
                 renderKelas: function() {
                     const id = this.$route.params.id;
-                    kelas = JSON.parse(localStorage.getItem('kelas'));
-                    item = kelas.filter(k => k.id == id);
-                    this.detailKelas = item[0];
+                    // kelas = JSON.parse(localStorage.getItem('kelas'));
+                    // item = kelas.filter(k => k.id == id);
+                    // this.detailKelas = item[0];
+                    let kelasDetailRef = db.ref('/kelas/' + id);
+                    kelasDetailRef.on('value', (item) => {
+                        this.detailKelas = item.val();
+                    })
                 }
             }
         } 
@@ -154,6 +187,9 @@
                     }
                 }
             ,
+            created() {
+                kelasRef.on('value', this.renderResult, this.errorData)
+            },
             methods: {
                 submitkelas: function() {
                     this.error.judul = "";
@@ -242,16 +278,37 @@
                 kelas: []
             },
             created() {
-                this.kelas = JSON.parse(localStorage.getItem('kelas')) || []
+                kelasRef.on('value', this.renderResult, this.errorData)
             },
             methods: {
                 hapuskelas: function(id) {
                     console.log(id);
-                    this.kelas = this.kelas.filter(item => item.id != id);
+                    // this.kelas = this.kelas.filter(item => item.id != id);
+                    db.ref('/kelas/' + id).remove();
                 },
                 submitkelas: function(data) {
-                    this.kelas.push(data);
-                    window.localStorage.setItem('kelas', JSON.stringify(this.kelas));
+                    // this.kelas.push(data);
+                    // window.localStorage.setItem('kelas', JSON.stringify(this.kelas));
+                    kelasRef.push({
+                        judul: data.judul,
+                        deskripsi: data.deskripsi,
+                        gambar: data.gambar
+                    })
+                },
+                renderResult(items) {
+                    this.kelas = [];
+                    items.forEach((item)=>{
+                        let data = {
+                            id: item.key,
+                            judul: item.val().judul,
+                            deskripsi: item.val().deskripsi,
+                            gambar: item.val().gambar
+                        };
+                        this.kelas.push(data);
+                    })
+                },
+                errorData(error) {
+                    console.log(error)
                 }
             }
         })
